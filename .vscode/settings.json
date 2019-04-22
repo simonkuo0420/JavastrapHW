@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/eb4ddb7d-b009-457c-a286-0d93a779ca62/resourceGroups/simonkuoBuildSchool/providers/Microsoft.Web/sites/JavaStrapHW",
+    "appService.deploySubpath": ""
+}

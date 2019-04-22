@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <div class="container-fluid" id="puzzle">
+
+        <div class="row">
+            <div class="playground mt-5 col-6">
+                <!-- <form action="/somewhere/to/upload" enctype="multipart/form-data">
+                        <input class="col-12" type="file" id="progressbarTWInput"
+                            accept="image/gif, image/jpeg, image/png">
+                            <div class="123"><img id="target" src="images/cat.jpg" style="padding-left:15px;"></div>    
+                </form> -->
+                <figure class="col-6">
+                    <img id="img" src="images/cat.jpg">
+                </figure>
+                <button type="button" class="btn btn-primary" id="play">Play</button>
+            </div>
+            <div class="div col-6 mt-3">
+                <form action="/somewhere/to/upload" enctype="multipart/form-data">
+                    <div class="row">
+                        <input class="col-12 pl-0" type="file" id="progressbarTWInput"
+                            accept="image/gif, image/jpeg, image/png">
+
+                        <img id="target" src="images/cat.jpg">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $("#progressbarTWInput").change(function () {
+                readURL(this, "target");
+            });
+
+            function readURL(input, image_id) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("figure div").remove();
+                        $("#" + image_id).attr('src', e.target.result);
+                        $("#img").attr('src', e.target.result);
+
+                        random_img();
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            function random_img() {
+                var aspect = "4x4",
+                    aspectW = parseInt(aspect.split("x")[0]),
+                    aspectH = parseInt(aspect.split("x")[1]),
+                    positions = [],
+                    start = [],
+                    start_end = 0,
+                    idcount = 0,
+                    img = $("img"),
+                    path = img.attr("src"),
+                    img_w = Math.floor(img.width() / aspectW),
+                    img_h = Math.floor(img.height() / aspectH);
+                $('figure').css({
+                    width: img.width(),
+                    height: img.height()
+                });
+                for (var i = 0; i < aspectH; i++) {
+                    for (var j = 0; j < aspectW; j++) {
+                        var top = img_h * i,
+                            left = img_w * j;
+
+                        // console.log(top);
+                        // console.log(left);
+                        $("<div/>").clone().attr("id", idcount++).css({
+                            width: img_w,
+                            height: img_h,
+                            border: "1px solid black",
+                            position: "absolute",
+                            top: top,
+                            left: left,
+                            backgroundImage: ["url(" + path + ")"],
+                            backgroundPosition: [
+                                "-" + left + "px ",
+                                "-" + top + "px"
+                            ].join("")
+                        }).addClass("puzzle_image").appendTo($("figure"));
+                        positions.push({ top: top, left: left });
+                        start.push(idcount - 1);
+                        start_end = Reverse_order(start);
+                    }
+                }
+
+                console.log('第一個:' + start);
+                console.log('第一個逆續:' + start_end);
+                $("figure img").remove();
+
+                // var r = Math.floor(Math.random() * (aspectH * aspectW));
+                // console.log('亂數:'+r);
+                // positions.splice(r,1);
+                console.log(positions);
+                // $("#" + r).css("background-image", "none");
+                $("#play").on("click", function () {
+                    // random_number(start,start_end,aspectH,aspectW,positions);
+
+                    var r = random_number(start, start_end, aspectH, aspectW, positions);
+                    // console.log(r);
+                    function direction(i) {
+
+                        var pool = [];
+                        var x = img_h + "px", y = img_w + "px";
+                        var row = parseInt($(".puzzle_image").eq(i).css("top")), col = parseInt($(".puzzle_image").eq(i).css("left"));
+                        console.log("i 的 row :" + row, "i 的 col :" + col);
+                        if (row > 0)//i物件的上面{}
+                            pool.push({ top: (row - img_h), left: col });
+                        if (row < img_h * aspectH)//i物件的下面
+                            pool.push({ top: (row + img_h), left: col });
+                        if (col > 0)//i物件的右邊
+                            pool.push({ top: row, left: (col - img_w) });
+                        if (col < img_w * aspectW)//i物件的左邊
+                            pool.push({ top: row, left: (col + img_w) });
+                        return pool;
+                    }
+                    $(".puzzle_image").on("click", function () {
+                        var all = $("figure div");
+                        var i = all.index(this);
+                        console.log('i :' + i);
+                        var around = direction(i);
+                        console.log(around);
+                        var i_top = $("#" + i).css("top"), i_left = $("#" + i).css("left");
+                        var change = [], random_top = parseInt($("#" + r).css("top")), random_left = parseInt($("#" + r).css("left"));
+                        change.push({ top: i_top, left: i_left });
+                        console.log('random_top :' + random_top)
+                        console.log('random_left :' + random_left)
+                        for (var x = 0; x < around.length; x++) {
+                            if (random_top == around[x].top && random_left == around[x].left) {
+
+                                $("#" + r).css({
+                                    top: i_top,
+                                    left: i_left
+                                });
+                                console.log("top :" + $("#" + r).css("top"), "left :" + $("#" + r).css("left"));
+                                $("#" + i).css({
+                                    top: random_top,
+                                    left: random_left
+                                });
+                            }
+                        }
+                        // var NP = New_Positions();
+                        // console.log(parseInt(NP[0].top), parseInt(NP[0].left));
+                        // for (var i = 0; i < aspectH * aspectW; i++) {
+                        //     if (parseInt(NP[i].top) == positions[i].top && parseInt(NP[i].left) == positions[i].left) {
+
+                        //         alert("贏了")
+                        //     }
+                        // }
+                        win_or_loss(aspectH,aspectW,positions);
+                    })
+                })
+            }
+            function random_number(start, start_end, aspectH, aspectW, positions) {
+                var random = [];
+                while (random.length < (aspectH * aspectW)) {
+                    var number = Math.floor(Math.random() * start.length);
+                    if (random.indexOf(number) == -1) {
+                        random.push(number);
+                    }
+                }
+                console.log('第二個:' + random);
+                var end = Reverse_order(random);
+                console.log('第二個逆續:' + end);
+                if ((start_end % 2 == end % 2) && (aspectH % 2 == 0) || (start_end % 2 != end % 2) && (aspectH % 2 == 1)) {
+                    //alert('成功');
+                    for (var i = 0; i < start.length; i++) {
+                        $('#' + random[i]).css({ top: positions[i].top, left: positions[i].left })
+                    }
+                    var r = Math.floor(Math.random() * (aspectH * aspectW));
+                    console.log('亂數:' + r);
+                    $("#" + r).css("background-image", "none");
+                    return r;
+                } else {
+                    //alert('失敗');
+                    return random_number(start, start_end, aspectH, aspectW, positions);
+
+                }
+            }
+            function Reverse_order(first_array) {
+                var end = [];
+                for (i = 0; i <= first_array.length - 1; i++) {
+                    for (j = i + 1; j <= first_array.length - 1; j++) {
+                        if (first_array[i] > first_array[j]) {
+                            end.push([first_array[i], first_array[j]]);
+                        }
+                    }
+                }
+                // console.log(end);
+                return end.length;
+            }
+            function New_Positions() {
+                var new_puzzle = $(".puzzle_image"), new_positions = [];
+                console.log(new_puzzle);
+                for (var i = 0; i < new_puzzle.length; i++) {
+                    new_positions.push({ top: new_puzzle.eq(i).css("top"), left: new_puzzle.eq(i).css("left") });
+                }
+                console.log(new_positions);
+                return new_positions;
+            }
+            function win_or_loss(aspectH,aspectW,positions) {
+                var NP = New_Positions();
+                var count =0;
+                console.log(parseInt(NP[0].top), parseInt(NP[0].left));
+                for (var i = 0; i < aspectH * aspectW; i++) {
+                    if (parseInt(NP[i].top) == positions[i].top && parseInt(NP[i].left) == positions[i].left) {
+                        count++;
+                        
+                    }
+                }
+                if(count == aspectH*aspectW){
+                    alert("贏了");
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>

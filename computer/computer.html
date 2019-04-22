@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+                crossorigin="anonymous">
+        <link rel="stylesheet" href="computer.css" />
+        <title>Computer</title>
+        <style>
+                body {
+                        background-color: black;
+                }
+        </style>
+</head>
+
+<body>
+
+        <div class="container">
+                <div class="row my-5">
+                        <div class="col-12 text-center h1"><strong class=" text-white">計算機</strong></div>
+                </div>
+                <div class="col-lg-4 offset-lg-4 computer w-50 h-100 border border-white" style="border-radius:25px;">
+                        <div class="row">
+                                <div id="answer" class="col-12 text-right pt-5 pb-2 mb-1 text-white px-4"
+                                        style="font-size:80px; overflow:hidden;">0</div>
+                        </div>
+                        <div class="row">
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="C"
+                                                class="btn btn-primary text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="afresh()">C</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="+/-"
+                                                class="btn btn-primary text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="Positive_and_negative()">+/-</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="％"
+                                                class="btn btn-primary text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="PA()">％</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="÷"
+                                                class="btn btn-warning text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="geticon('÷')"><strong
+                                                        class="text-center h3 text-white">÷</strong></button></div>
+                        </div>
+                        <div class="row">
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="7"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('7')">7</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="8"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('8')">8</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="9"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('9')">9</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="×"
+                                                class="btn btn-warning text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="geticon('×')"><strong
+                                                        class="text-center h3 text-white" >×</strong></button></div>
+                        </div>
+                        <div class="row">
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="4"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('4')">4</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="5"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('5')">5</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="6"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('6')">6</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="−"
+                                                class="btn btn-warning text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="geticon('−')"><strong
+                                                        class="text-center h3 text-white" >−</strong></button></div>
+                        </div>
+                        <div class="row">
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="1"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('1')">1</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="2"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('2')">2</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="3"
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('3')">3</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="+"
+                                                class="btn btn-warning text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="geticon('+')"><strong
+                                                        class="text-center h3 text-white" >+</strong></button></div>
+                        </div>
+                        <div class="row">
+                                <div class="col-6 px-2 mb-1" style="height:75px;"><button id="0"
+                                                class="btn btn-secondary text-left w-100 h-100 text-white pl-4"
+                                                type="button" style="border-radius:60px;" onclick="getnum('0')">0</button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="."
+                                                class="btn btn-secondary text-center w-100 h-100 rounded-circle text-white"
+                                                type="button" onclick="getnum('.');"><strong
+                                                        class="text-center h3 text-white" >.</strong></button></div>
+                                <div class="col-3 px-2 mb-1" style="height:75px;"><button id="="
+                                                class="btn btn-warning text-center w-100 h-100 rounded-circle"
+                                                type="button" onclick="equal()"><strong
+                                                        class="text-center h3 text-white" >=</strong></button></div>
+                        </div>
+                </div>
+        </div>
+
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+        <script>
+                var first = null;
+                var second = null;
+                var x = true;
+                // var second = null;
+                var icon = null;
+                function getnum(num){
+                        
+                        if(document.getElementById("answer").innerHTML == 0 || document.getElementById("answer").innerHTML == first){ 
+                                document.getElementById("answer").innerHTML = num;      
+                        }
+                        else{
+                                if(num=='.'){
+                                        document.getElementById('.').disabled=true;
+                                        
+                                }
+                                document.getElementById("answer").innerHTML += num;
+                        }
+                        second = document.getElementById("answer").innerHTML;
+                };
+                function geticon(iconstr){
+                        document.getElementById('.').disabled=false;
+                        // equal();
+                        first = document.getElementById("answer").innerHTML;
+                        icon = iconstr;
+                        document.getElementById("answer").innerHTML = first;
+                };
+                function equal(){
+                        switch(icon){
+                                case '+':
+                                if(x){
+                                        document.getElementById('answer').innerHTML = parseFloat(first)+parseFloat(second);
+                                        x=false;
+                                }else{
+                                        document.getElementById('answer').innerHTML = parseFloat(document.getElementById('answer').innerHTML) + parseFloat(second);
+                                }
+                                break;
+                                case '−':
+                                if(x){
+                                        document.getElementById('answer').innerHTML = parseFloat(first)-parseFloat(second);
+                                        x=false;
+                                }else{
+                                        document.getElementById('answer').innerHTML = parseFloat(document.getElementById('answer').innerHTML) - parseFloat(second);
+                                }
+                                break;
+                                case '×':
+                                if(x){
+                                        document.getElementById('answer').innerHTML = (parseFloat(first)*parseFloat(second)).toFixed(2);
+                                        x=false;
+                                }else{
+                                        sum = parseFloat(document.getElementById('answer').innerHTML) * parseFloat(second);
+                                        document.getElementById('answer').innerHTML = sum.toFixed(2);
+                                }
+                                break;
+                                case '÷':
+                                if(x){
+                                        document.getElementById('answer').innerHTML = (parseFloat(first)/parseFloat(second)).toFixed(2);
+                                        x=false;
+                                }else{
+                                        document.getElementById('answer').innerHTML = (parseFloat(document.getElementById('answer').innerHTML) / parseFloat(second)).toFixed(2);
+                                }
+                                break;
+                                default:
+                                break;
+                        }
+                        
+                        // first =null;
+                        // iconstr =null;
+                };
+                function afresh(){
+                        first = null;
+                        second = null;
+                        icon = null;
+                        x = true;
+                        document.getElementById("answer").innerHTML = 0;
+                        document.getElementById('.').disabled=false;
+                };
+                function Positive_and_negative(){
+                        document.getElementById("answer").innerHTML = parseFloat(document.getElementById('answer').innerHTML)*-1+"";
+                };
+                function PA(){
+                        document.getElementById("answer").innerHTML = parseFloat(document.getElementById('answer').innerHTML)*0.01+"";
+                };
+
+        </script>
+        
+
+</body>
+
+</html>
